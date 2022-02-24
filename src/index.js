@@ -1,17 +1,28 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import ReactDOM, {render} from 'react-dom';
+import { Provider } from 'react-redux';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import store from './redux/store';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+import ProductList from './components/ProducList';
+import ProductDetail from './components/ProductDetail';
+import NotFound from './components/NotFound';
+import Header from './components/Header';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+  <Provider store = { store }>
+    <Header/>
+    <BrowserRouter>
+    <Routes>
+      <Route path='/' element={<ProductList />}/>
+      <Route path='/Home' element={<App />}/>
+      <Route path='/product/:productId' element={<ProductDetail />}/>
+      <Route path='*' element={<NotFound />}/>
+    </Routes>
+  </BrowserRouter>
+  </Provider>,document.getElementById('root')
+)
